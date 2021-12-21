@@ -1,0 +1,147 @@
+//GSP 
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+//NODE DECLARATION
+struct node
+{
+	int data;
+	struct node *next;
+	struct node *prev;
+};
+struct node *start;
+//INSERTBEG
+void insertbeg()
+{
+	struct node *nn;
+	int a;
+	//MEMORY ALLOCATION
+	nn = (struct node *)malloc(sizeof(struct node));
+	printf("Enter data:\n");
+	scanf("%d",&a);
+	nn->data=a;
+	if(start == NULL)
+	{
+		nn->next=NULL;
+		nn->prev = NULL;
+		start=nn;
+	}
+	else
+	{
+		nn->next = start;
+		nn->prev=NULL;
+		start->prev = nn;
+		start=nn;
+	}
+	printf("Element inserted successfully at beginning\n");
+}
+//INSERTMID;
+void insertmid()
+{
+	struct node *nn,*temp,*ptemp;
+	int x,y;
+	nn = (struct node *)malloc(sizeof(struct node));
+	if(start ==NULL)
+	{
+		printf("Double linked list is empty\n");
+		return;
+	}
+	printf("Enter the data before which the new node has to be inserted\n");
+	scanf("%d",&x);
+	if(x==start->data)
+	{
+		insertbeg();
+		return;
+	}
+	ptemp=start;
+	temp=start->next;
+	while(temp->data != x && temp!=NULL)
+	{
+		ptemp=temp;
+		temp=temp->next;
+	}
+	if(temp==NULL)
+	{
+		printf("%d does not exist\n",x);
+		
+	}
+//check	
+	else
+	{
+		printf("Enter data:\n");
+		scanf("%d",&y);
+		nn->data=y;
+		ptemp->next=nn;
+		nn->prev=ptemp;
+		nn->next=temp;
+		temp->prev=nn;
+		printf("Given data %d is inserted successfully before %d\n",y,x);
+	}
+	
+}
+//INSERTION AT END
+void insertend()
+{
+	struct node *nn,*temp;
+	int x;
+	nn=(struct node *)malloc(sizeof(struct node));
+	printf("Enter the data:\n");
+	scanf("%d",&x);
+	nn->data = x;
+	if(start==NULL)
+	{
+		nn->next=NULL;
+		nn->prev==NULL;
+		start=nn;
+	}
+	else
+	{
+		temp=start;
+		while(temp->next!=NULL)
+		{
+			temp=temp->next;	
+		}
+		temp->next==nn;
+		nn->prev = temp;
+		nn->next=NULL;
+	}
+	printf("Given data %d is inserted at end\n",x);
+}
+//DISPLAY
+void display()
+{
+	struct node *temp;
+	temp = start;
+	printf("The elements in the linked list are :\n");
+	while(temp!=NULL)
+	{
+		printf("%d\n",temp->data);
+		temp=temp->next;
+	}
+}
+int main()
+{
+	int a;
+	start = NULL;
+	do
+	{
+		printf("Select one of the numbers to perform respective operation:\n0.exit\n1.insertion at beginning\n2.insertiopn at middle\n3.insertion at end\n4.display elements\n");
+		scanf("%d",&a);
+		switch(a)
+		{
+			case 0 : printf("Program ends\n");
+			  break;
+			case 1 : insertbeg();
+			  break;
+			case 2 : insertmid();
+			  break;
+			case 3 : insertend();
+			  break;
+			case 4 : display();
+			  break;
+			default : printf("Select a valid option");
+		}	
+	}while(a!=0);
+	return 0;
+}
